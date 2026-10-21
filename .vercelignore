@@ -1,0 +1,11 @@
+.git
+.env
+.env.*
+!.env.example
+.agents
+.claude
+.cursorignore
+skills-lock.json
+test.png
+node_modules
+.next

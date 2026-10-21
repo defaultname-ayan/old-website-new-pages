@@ -1,0 +1,142 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  SUPER_ADMIN
+  MODERATOR
+  USER
+}
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  password      String
+  name          String
+  role          UserRole  @default(USER)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  lastLoginAt   DateTime?
+  isActive      Boolean   @default(true)
+  resetToken    String?
+  resetTokenExp DateTime?
+}
+
+model Blog {
+  id        Int     @id @default(autoincrement())
+  title     String
+  slug      String   @unique
+  summary   String
+  headImage String
+  content   String
+  blocks    Json
+  createdAt DateTime @default(now())
+}
+
+model Team {
+  id          String   @id @default(cuid())
+  name        String
+  position    String
+  bio         String
+  image       String   // This will store the base64 image data
+  imageType   String   // This will store the image MIME type (e.g., 'image/jpeg', 'image/png')
+  email       String?
+  linkedin    String?
+  twitter     String?
+  github      String?
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Job {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  location    String
+  type        String   // Full-time, Part-time, Internship, etc.
+  requirements String?
+  salary      String?
+  deadline    String
+  pdfBase64   String   // Base64 encoded PDF data
+  pdfType     String   // MIME type of the PDF (e.g., 'application/pdf')
+  applyLink   String   // Application form link
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Testimonial {
+  id            String   @id @default(cuid())
+  name          String
+  role          String
+  qualification String
+  image         String
+  content       String
+  isActive      Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model MeeNesthamSubmission {
+  id          String   @id @default(cuid())
+  name        String
+  email       String
+  phone       String
+  address     String
+  parentName  String
+  parentAge   Int
+  message     String?
+  status      String   @default("PENDING") // PENDING, CONTACTED, COMPLETED
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model FieldVisitConfig {
+  id          String   @id @default(cuid())
+  heading     String
+  buttonText  String
+  buttonUrl   String
+  order       Int      // To maintain the sequence of pairs
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Project {
+  id          String         @id @default(cuid())
+  slug        String         @unique
+  bannerTitle String
+  projectName String
+  projectDescription String
+  rationaleTitle String
+  rationaleText String
+  duration    String
+  location    String
+  contact     String
+  progressStatus String
+  progressImpact String
+  ctaText     String
+  ctaLink     String
+  investigators String[]
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+}
+model Metrics {
+  id              Int @id @default(1)
+  camps           Int @default(0)
+  peopleScreened  Int @default(0)
+  identifiedcases Int @default(0)
+}

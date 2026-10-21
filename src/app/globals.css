@@ -1,0 +1,48 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+:root {
+  --oxpins-extra: #f2f2f2;
+  --oxpins-primary: #ff6600;
+  --oxpins-base: #008080;
+  --oxpins-black: #111;
+}
+
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.text-outline {
+  color: white; /* Green fill */
+  -webkit-text-stroke: 1px #5e6f46; /* White outline */
+}
+
+.text-outline2 {
+  color: white; /* Green fill */
+  -webkit-text-stroke: 0.3px black; /* White outline */
+}
+
+html {
+  scroll-behavior: smooth;
+}
