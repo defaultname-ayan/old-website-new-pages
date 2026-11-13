@@ -155,7 +155,7 @@ function SectionHeading({ label, title, intro, light = false }) {
         {title}
       </h2>
       {intro && (
-        <p className={`mt-5 text-lg leading-relaxed ${light ? "text-white/90" : "text-gray-600"}`}>
+        <p className={`mt-5 text-lg leading-relaxed whitespace-pre-line ${light ? "text-white/90" : "text-gray-600"}`}>
           {intro}
         </p>
       )}
@@ -163,17 +163,31 @@ function SectionHeading({ label, title, intro, light = false }) {
   );
 }
 
-// Turns the first occurrence of `link.text` inside `text` into a link.
+// Turns the first occurrence of `link.text` inside `text` into a link, with optional bold prefix before colon.
 function TextWithLink({ text, link }) {
-  const i = link ? text.indexOf(link.text) : -1;
-  if (i === -1) return text;
+  const colonIndex = text.indexOf(":");
+  let prefix = null;
+  let remainingText = text;
+  if (colonIndex > 0 && colonIndex < 60) {
+    prefix = text.slice(0, colonIndex + 1);
+    remainingText = text.slice(colonIndex + 1).trimStart();
+  }
+
+  const i = link ? remainingText.indexOf(link.text) : -1;
   return (
     <>
-      {text.slice(0, i)}
-      <Link href={link.href} className="font-semibold text-[#4a5838] underline underline-offset-4 hover:text-[#7a5814]">
-        {link.text}
-      </Link>
-      {text.slice(i + link.text.length)}
+      {prefix && <strong className="font-bold text-[#4a5838]">{prefix} </strong>}
+      {i === -1 ? (
+        remainingText
+      ) : (
+        <>
+          {remainingText.slice(0, i)}
+          <Link href={link.href} className="font-semibold text-[#4a5838] underline underline-offset-4 hover:text-[#7a5814]">
+            {link.text}
+          </Link>
+          {remainingText.slice(i + link.text.length)}
+        </>
+      )}
     </>
   );
 }
@@ -456,7 +470,7 @@ export default function CounsellingPage({ t }) {
               <TriangleAlert className="mt-1 h-6 w-6 shrink-0 text-[#a8432f]" aria-hidden="true" />
               <div>
                 <h2 className="text-xl font-bold text-[#8f3826]">{t.emergency.title}</h2>
-                <p className="mt-2 leading-relaxed text-gray-700">{t.emergency.text}</p>
+                <p className="mt-2 leading-relaxed text-gray-700 whitespace-pre-line">{t.emergency.text}</p>
                 <div className="mt-4 flex flex-wrap gap-3 text-sm font-semibold">
                   <a href="tel:108" className="rounded-full bg-[#a8432f] px-4 py-1.5 text-white hover:bg-[#8f3826]">
                     108
